@@ -1,0 +1,20 @@
+version: "3"
+services:
+  payments:
+    container_name: payments
+    build:
+      context: ./payments
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+    ports:
+      - "8001:8080"
+  orders:
+    container_name: orders
+    build:
+      context: ./orders
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+    ports:
+      - "8004:8080"
