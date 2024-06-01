@@ -18,3 +18,15 @@ services:
       - "8080"
     ports:
       - "8004:8080"
+  checkout:
+    container_name: checkout
+    build:
+      context: ./checkout
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+    ports:
+      - "8005:8080"
+    depends_on:
+      - payments
+      - orders
