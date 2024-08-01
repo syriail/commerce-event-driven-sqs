@@ -1,10 +1,26 @@
 version: "3"
 services:
-  orders:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    expose:
-      - "8080"
+  database:
+    image: postgres:14-alpine3.18
     ports:
-      - "8080:8080"
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=orders
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+  localstack:
+    image: localstack/localstack:3.6.0
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+  aws-worker:
+    image: amazon/aws-cli:2.9.23
+    volumes:
+      - "./scripts:/scripts"
+    environment:
+      - AWS_ACCESS_KEY_ID=local_access_key
+      - AWS_SECRET_ACCESS_KEY=local_secret_key
+      - AWS_DEFAULT_REGION=eu-central-1
+    entrypoint: "sh /scripts/localstack-setup.sh"
+    depends_on:
+      - localstack

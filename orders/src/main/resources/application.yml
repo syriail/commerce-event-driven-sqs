@@ -1,2 +1,44 @@
  spring:
   application.name: orders
+
+  db:
+    name: "orders"
+    host: ${DB_HOST}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  datasource:
+    url: "jdbc:postgresql://${spring.db.host}:5432/${spring.db.name}"
+    username: ${spring.db.username}
+    password: ${spring.db.password}
+  sql:
+    init:
+      platform: postgresql
+
+  flyway:
+    enabled: true
+    url: "jdbc:postgresql://${spring.db.host}:5432/${spring.db.name}"
+    user: ${spring.db.username}
+    password: ${spring.db.password}
+  cloud:
+    aws:
+      commerceEventsQueueUrl: ${AWS_COMMERCE_EVENTS_QUEUE_URL}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: ["test", "local"]
+  db:
+    host: "localhost"
+    username: "postgres"
+    password: "password"
+  cloud:
+    aws:
+      region:
+        static: "eu-central-1"
+      credentials:
+        access-key: "local_access_key" # Check docker-compose.yml for the value
+        secret-key: "local_secret_key" # Check docker-compose.yml for the value
+      endpoint: "http://localhost:4566"
+      commerceEventsQueueUrl: "http://sqs.eu-central-1.localhost.localstack.cloud:4566/000000000000/commerce_events.fifo"
