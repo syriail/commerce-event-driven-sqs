@@ -1,14 +1,21 @@
 package com.ghrer.commerce.orders.model
 
+import jakarta.persistence.Embeddable
+import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
-import jakarta.persistence.Id
+import java.io.Serializable
 import java.util.UUID
 
 @Entity
 data class OrderItem(
-    @Id
-    val id: UUID,
-    val orderId: UUID,
+    @EmbeddedId
+    val orderItemId: OrderItemId,
     val quantity: Int,
     val price: Double
 )
+
+@Embeddable
+data class OrderItemId(
+    val id: UUID,
+    val orderId: UUID
+) : Serializable

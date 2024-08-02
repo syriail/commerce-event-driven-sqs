@@ -5,6 +5,7 @@ import com.ghrer.commerce.orders.model.Address
 import com.ghrer.commerce.orders.model.Order
 import com.ghrer.commerce.orders.model.OrderAggregate
 import com.ghrer.commerce.orders.model.OrderItem
+import com.ghrer.commerce.orders.model.OrderItemId
 import org.springframework.stereotype.Component
 import java.util.UUID
 
@@ -28,8 +29,7 @@ class OrderMapper {
 
     fun mapToOrderItems(createOrderRequest: CreateOrderRequest, orderId: UUID) = createOrderRequest.items.map {
         OrderItem(
-            id = it.id,
-            orderId = orderId,
+            OrderItemId(id = it.id, orderId = orderId),
             quantity = it.quantity,
             price = it.price
         )

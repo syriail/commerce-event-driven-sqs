@@ -6,6 +6,7 @@ import com.ghrer.commerce.orders.dto.OrderRequestOrderItem
 import com.ghrer.commerce.orders.model.Address
 import com.ghrer.commerce.orders.model.OrderAggregate
 import com.ghrer.commerce.orders.model.OrderItem
+import com.ghrer.commerce.orders.model.OrderItemId
 import com.ghrer.commerce.orders.model.OrderStatus
 import java.time.LocalDateTime
 import java.util.UUID
@@ -48,14 +49,12 @@ object OrderFixture {
             createDate = LocalDateTime.now(),
             items = listOf(
                 OrderItem(
-                    id = UUID.randomUUID(),
-                    orderId = orderId,
+                    OrderItemId(id = UUID.randomUUID(), orderId = orderId),
                     quantity = 3,
                     price = 1.2
                 ),
                 OrderItem(
-                    id = UUID.randomUUID(),
-                    orderId = orderId,
+                    OrderItemId(id = UUID.randomUUID(), orderId = orderId),
                     quantity = 1,
                     price = 12.0
                 )
@@ -81,10 +80,9 @@ object OrderFixture {
             createDate = LocalDateTime.now(),
             items = request.items.map {
                 OrderItem(
-                    id = it.id,
+                    OrderItemId(id = it.id, orderId = orderId),
                     price = it.price,
-                    quantity = it.quantity,
-                    orderId = orderId
+                    quantity = it.quantity
                 )
             }
         )

@@ -57,7 +57,7 @@ class TransactionalOrderPersistenceAdaptorIntegrationTest : BaseIntegrationTest(
             .consumeNextWith {
                 Assertions.assertThat(it).isNotNull()
                 it?.also {
-                    val orderItems = orderItemRepository.findAllByOrderId(it.id)
+                    val orderItems = orderItemRepository.findByOrderItemIdOrderId(it.id)
                     Assertions.assertThat(orderItems.size).isEqualTo(request.items.size)
                 }
             }.verifyComplete()

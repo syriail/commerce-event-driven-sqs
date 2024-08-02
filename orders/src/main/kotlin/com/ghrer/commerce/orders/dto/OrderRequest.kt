@@ -1,11 +1,11 @@
 package com.ghrer.commerce.orders.dto
-
+import jakarta.validation.constraints.Size
 import java.util.UUID
-
 data class CreateOrderRequest(
     val customerId: String,
     val totalPrice: Double,
     val customerAddress: OrderRequestAddress,
+    @field:Size(min = 1, message = "Items cannot be empty")
     val items: List<OrderRequestOrderItem>
 )
 

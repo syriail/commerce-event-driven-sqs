@@ -1,0 +1,13 @@
+{
+  "customerId": "test@company.com",
+  "totalPrice": 41.4,
+  "customerAddress": {
+    "firstName": "Hussein",
+    "lastName": "Ghrer",
+    "street": "some street",
+    "houseNumber": "3B",
+    "postalCode": "6359",
+    "city": "Nice City"
+  },
+  "items": []
+}

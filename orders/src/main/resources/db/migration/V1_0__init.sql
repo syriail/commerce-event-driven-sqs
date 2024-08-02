@@ -10,10 +10,11 @@ CREATE TABLE IF NOT EXISTS orders (
 );
 
 create table if not exists order_item (
-    id UUID not null primary key,
+    id UUID not null,
     order_id UUID not null,
     price real not null,
     quantity integer not null,
+    primary key (id, order_id),
     CONSTRAINT fk_order_item_order_id
           FOREIGN KEY(order_id)
             REFERENCES orders(id)

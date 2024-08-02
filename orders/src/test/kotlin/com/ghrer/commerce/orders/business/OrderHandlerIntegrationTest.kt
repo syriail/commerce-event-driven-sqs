@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import reactor.test.StepVerifier
-import kotlin.jvm.optionals.getOrNull
 
 class OrderHandlerIntegrationTest : BaseIntegrationTest() {
 
@@ -30,11 +29,12 @@ class OrderHandlerIntegrationTest : BaseIntegrationTest() {
                 OrderFixture.getSampleCreateOrderRequest()
             )
         ).consumeNextWith { createdOrder ->
-            val message = sqsTemplate.receive(queueUrl, OrderCreatedEvent::class.java).getOrNull()
+            val messages = sqsTemplate.receiveMany(queueUrl, OrderCreatedEvent::class.java)
 
+            Assertions.assertThat(messages.size).isGreaterThan(0)
+            val message = messages.find { it.payload.order.id == createdOrder?.id }
             Assertions.assertThat(message).isNotNull
             message?.let {
-                Assertions.assertThat(it.payload.order.id).isEqualTo(createdOrder?.id)
                 Assertions.assertThat(
                     it.headers[SqsEventPublisherAdaptor.SQS_GROUP_ID_HEADER]
                 ).isEqualTo(createdOrder?.id.toString())
