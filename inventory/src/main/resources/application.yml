@@ -1,0 +1,32 @@
+spring:
+  application.name: inventory
+
+  db:
+    name: "orders"
+    host: ${DB_HOST}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  datasource:
+    url: "jdbc:postgresql://${spring.db.host}:5432/${spring.db.name}"
+    username: ${spring.db.username}
+    password: ${spring.db.password}
+  sql:
+    init:
+      platform: postgresql
+
+  flyway:
+    enabled: true
+    url: "jdbc:postgresql://${spring.db.host}:5432/${spring.db.name}"
+    user: ${spring.db.username}
+    password: ${spring.db.password}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: ["test", "local"]
+  db:
+    host: "localhost"
+    username: "postgres"
+    password: "password"
