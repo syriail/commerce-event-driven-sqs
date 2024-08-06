@@ -2,7 +2,7 @@ spring:
   application.name: inventory
 
   db:
-    name: "orders"
+    name: "inventory"
     host: ${DB_HOST}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
