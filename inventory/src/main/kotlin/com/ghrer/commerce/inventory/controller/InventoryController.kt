@@ -2,13 +2,12 @@ package com.ghrer.commerce.inventory.controller
 
 import com.ghrer.commerce.inventory.business.InventoryHandler
 import com.ghrer.commerce.inventory.controller.dto.ReserveItemRequest
-import com.ghrer.commerce.inventory.model.Item
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @RestController
 class InventoryController(
@@ -19,8 +18,8 @@ class InventoryController(
     @ResponseStatus(HttpStatus.OK)
     fun reserve(
         @RequestBody items: List<ReserveItemRequest>
-    ): Flux<Item> {
+    ): Mono<Void> {
         return inventoryHandler.reserve(items)
-        // .then()
+            .then()
     }
 }

@@ -5,7 +5,6 @@ import com.ghrer.commerce.inventory.controller.dto.UnavailableItem
 import com.ghrer.commerce.inventory.exception.ItemNotFoundException
 import com.ghrer.commerce.inventory.exception.NotEnoughQuantityAvailableException
 import com.ghrer.commerce.inventory.fixture.ItemFixture
-import com.ghrer.commerce.inventory.model.Item
 import com.ghrer.commerce.inventory.persistence.DataPersistenceService
 import com.ghrer.commerce.inventory.persistence.ReactiveItemPersistenceService
 import com.ghrer.commerce.inventory.utils.FileUtil
@@ -98,14 +97,15 @@ class InventoryControllerIntegrationTest : BaseIntegrationTest() {
                 .bodyValue(it)
                 .exchange()
                 .expectStatus().isOk
-                .expectBodyList(Item::class.java)
-                .hasSize(3)
-                .value<WebTestClient.ListBodySpec<Item>> { items ->
-                    items.forEachIndexed { index, item ->
-                        Assertions.assertThat(item.id).isEqualTo(storedItems[index].id)
-                        Assertions.assertThat(item.reserved).isEqualTo(storedItems[index].reserved + 1)
-                    }
-                }
+            // Use this if InventoryController.reserve should return Flux<Item>
+//                .expectBodyList(Item::class.java)
+//                .hasSize(3)
+//                .value<WebTestClient.ListBodySpec<Item>> { items ->
+//                    items.forEachIndexed { index, item ->
+//                        Assertions.assertThat(item.id).isEqualTo(storedItems[index].id)
+//                        Assertions.assertThat(item.reserved).isEqualTo(storedItems[index].reserved + 1)
+//                    }
+//                }
         }
     }
 }
