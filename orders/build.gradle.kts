@@ -45,7 +45,6 @@ dependencies {
     implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.1"))
     implementation(kotlin("reflect"))
 
-
 //    Spring
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

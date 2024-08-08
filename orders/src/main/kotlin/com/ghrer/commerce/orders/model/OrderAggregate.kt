@@ -12,5 +12,11 @@ data class OrderAggregate(
     val totalPrice: Double,
     val status: OrderStatus,
     val createDate: LocalDateTime,
-    val items: List<OrderItem>
+    val items: List<Item>
+)
+
+data class Item(
+    val itemId: UUID,
+    val quantity: Int,
+    val price: Double
 )

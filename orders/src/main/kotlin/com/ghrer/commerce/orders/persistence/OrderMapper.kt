@@ -2,6 +2,7 @@ package com.ghrer.commerce.orders.persistence
 
 import com.ghrer.commerce.orders.dto.CreateOrderRequest
 import com.ghrer.commerce.orders.model.Address
+import com.ghrer.commerce.orders.model.Item
 import com.ghrer.commerce.orders.model.Order
 import com.ghrer.commerce.orders.model.OrderAggregate
 import com.ghrer.commerce.orders.model.OrderItem
@@ -42,7 +43,9 @@ class OrderMapper {
         shipmentId = order.shipmentId,
         status = order.status,
         createDate = order.createDate!!,
-        items = items,
+        items = items.map {
+            Item(it.orderItemId.id, it.quantity, it.price)
+        },
         totalPrice = order.totalPrice,
         address = order.address
     )

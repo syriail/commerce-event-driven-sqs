@@ -4,6 +4,7 @@ import com.ghrer.commerce.orders.dto.CreateOrderRequest
 import com.ghrer.commerce.orders.dto.OrderRequestAddress
 import com.ghrer.commerce.orders.dto.OrderRequestOrderItem
 import com.ghrer.commerce.orders.model.Address
+import com.ghrer.commerce.orders.model.Item
 import com.ghrer.commerce.orders.model.OrderAggregate
 import com.ghrer.commerce.orders.model.OrderItem
 import com.ghrer.commerce.orders.model.OrderItemId
@@ -31,37 +32,6 @@ object OrderFixture {
         )
     )
 
-    fun getCreatedOrderAggregate(): OrderAggregate {
-        val orderId = UUID.randomUUID()
-        return OrderAggregate(
-            id = orderId,
-            customerId = "some@hello.com",
-            totalPrice = 32.4,
-            address = Address(
-                firstName = "Hussein",
-                lastName = "Ghrer",
-                street = "some where str.",
-                houseNumber = "43B",
-                postalCode = "4320",
-                city = "nice city"
-            ),
-            status = OrderStatus.PLACED,
-            createDate = LocalDateTime.now(),
-            items = listOf(
-                OrderItem(
-                    OrderItemId(id = UUID.randomUUID(), orderId = orderId),
-                    quantity = 3,
-                    price = 1.2
-                ),
-                OrderItem(
-                    OrderItemId(id = UUID.randomUUID(), orderId = orderId),
-                    quantity = 1,
-                    price = 12.0
-                )
-            )
-        )
-    }
-
     fun getCreatedOrderAggregate(request: CreateOrderRequest): OrderAggregate {
         val orderId = UUID.randomUUID()
         return OrderAggregate(
@@ -79,8 +49,8 @@ object OrderFixture {
             status = OrderStatus.PLACED,
             createDate = LocalDateTime.now(),
             items = request.items.map {
-                OrderItem(
-                    OrderItemId(id = it.id, orderId = orderId),
+                Item(
+                    it.id,
                     price = it.price,
                     quantity = it.quantity
                 )
