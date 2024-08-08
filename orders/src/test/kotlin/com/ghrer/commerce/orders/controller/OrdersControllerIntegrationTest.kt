@@ -38,6 +38,8 @@ class OrdersControllerIntegrationTest : BaseIntegrationTest() {
                 .bodyValue(it)
                 .exchange()
                 .expectStatus().isBadRequest
+                .expectBody()
+                .jsonPath("$.message").isEqualTo("Request is not valid. Required fields are null")
         }
     }
 
@@ -50,7 +52,7 @@ class OrdersControllerIntegrationTest : BaseIntegrationTest() {
                 .exchange()
                 .expectStatus().isBadRequest
                 .expectBody()
-                .jsonPath("$.errors.items").isEqualTo("Items cannot be empty")
+                .jsonPath("$.fields.items").isEqualTo("Items cannot be empty")
         }
     }
 }

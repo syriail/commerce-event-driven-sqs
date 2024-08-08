@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.util.UUID
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class ReserveItemsResponse(
+data class ReserveItemsErrorResponse(
     val message: String? = null,
     val notFoundItems: List<UUID> = emptyList(),
     val unavailableItems: List<UnavailableItem> = emptyList(),
