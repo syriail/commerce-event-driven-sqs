@@ -1,0 +1,19 @@
+{
+  "customerId": "orders@field.not.valid",
+  "totalPrice": 41.4,
+  "customerAddress": {
+    "firstName": "Hussein",
+    "lastName": "Ghrer",
+    "street": "some street",
+    "houseNumber": "3B",
+    "postCode": "6359",
+    "city": "Nice City"
+  },
+  "items": [
+    {
+      "itemId": "bb596208-323c-4d3d-a8b6-b5122ad64515",
+      "quantity": 3,
+      "price": 6.2
+    }
+  ]
+}

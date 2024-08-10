@@ -7,5 +7,4 @@ data class AddressDto(
     val houseNumber: String,
     val postCode: String,
     val city: String,
-    val country: String
 )

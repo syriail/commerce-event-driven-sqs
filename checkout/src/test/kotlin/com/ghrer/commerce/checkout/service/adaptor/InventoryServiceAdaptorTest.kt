@@ -1,9 +1,9 @@
 package com.ghrer.commerce.checkout.service.adaptor
 
-import com.ghrer.commerce.checkout.service.config.InventoryServiceConfig
 import com.ghrer.commerce.checkout.exception.ItemNotFoundException
 import com.ghrer.commerce.checkout.exception.NotEnoughQuantityAvailableException
 import com.ghrer.commerce.checkout.fixtures.PlaceOrderRequestFixture
+import com.ghrer.commerce.checkout.service.config.InventoryServiceConfig
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import org.assertj.core.api.Assertions

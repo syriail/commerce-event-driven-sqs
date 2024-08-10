@@ -1,13 +1,8 @@
 package com.ghrer.commerce.checkout.exception
 
-import java.util.UUID
+import com.ghrer.commerce.checkout.service.dto.UnavailableItem
 
-class ItemNotAvailableException(
+class NotEnoughQuantityAvailableException(
+    override val message: String? = null,
     val unavailableItems: List<UnavailableItem>
-) : ApplicationException(false)
-
-data class UnavailableItem(
-    val itemId: UUID,
-    val requestedQuantity: Int,
-    val availableQuantity: Int,
-)
+) : ApplicationException(false, message)

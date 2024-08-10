@@ -1,3 +1,10 @@
 package com.ghrer.commerce.checkout.service.config
 
-data class OrderServiceConfig()
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.context.annotation.Configuration
+
+@Configuration
+@ConfigurationProperties(prefix = "order-service")
+data class OrderServiceConfig(
+    var baseUrl: String = ""
+)

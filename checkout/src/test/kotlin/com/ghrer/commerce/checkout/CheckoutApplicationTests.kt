@@ -1,13 +1,10 @@
 package com.ghrer.commerce.checkout
 
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
-class CheckoutApplicationTests {
+class CheckoutApplicationTests : BaseIntegrationTest() {
 
-	@Test
-	fun contextLoads() {
-	}
-
+    @Test
+    fun contextLoads() {
+    }
 }

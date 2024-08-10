@@ -1,0 +1,29 @@
+{
+  "customerId": "test@company.com",
+  "totalPrice": 41.4,
+  "customerAddress": {
+    "firstName": "Hussein",
+    "lastName": "Ghrer",
+    "street": "some street",
+    "houseNumber": "3B",
+    "postCode": "6359",
+    "city": "Nice City"
+  },
+  "items": [
+    {
+      "itemId": "bb596208-323c-4d3d-a8b6-b5122ad64515",
+      "quantity": 3,
+      "price": 6.2
+    },
+    {
+      "itemId": "32638493-6c5e-4c5e-9e36-912e39f16535",
+      "quantity": 1,
+      "price": 12.6
+    },
+    {
+      "itemId": "d173c2ca-0d50-4b71-973f-46e21f64ceb3",
+      "quantity": 2,
+      "price": 5.1
+    }
+  ]
+}

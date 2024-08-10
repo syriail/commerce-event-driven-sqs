@@ -1,4 +1,7 @@
 package com.ghrer.commerce.checkout.exception
 
-class ApplicationException {
-}
+open class ApplicationException(
+    val retriable: Boolean,
+    override val message: String? = null,
+    override val cause: Throwable? = null
+) : RuntimeException(message, cause)

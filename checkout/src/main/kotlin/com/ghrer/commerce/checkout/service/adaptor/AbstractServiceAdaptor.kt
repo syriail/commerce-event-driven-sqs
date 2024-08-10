@@ -28,7 +28,7 @@ abstract class AbstractServiceAdaptor(
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(request)
             .exchangeToMono { response ->
-                if (response.statusCode().is2xxSuccessful) response.bodyToMono<T>()
+                if (response.statusCode().is2xxSuccessful) response.bodyToMono(T::class.java)
                 else if (response.statusCode().is4xxClientError) handle4xxError(response)
                 else Mono.error(handle5xxError(response))
             }
@@ -40,13 +40,13 @@ abstract class AbstractServiceAdaptor(
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(request)
             .exchangeToFlux { response ->
-                if (response.statusCode().is2xxSuccessful) response.bodyToFlux<T>()
+                if (response.statusCode().is2xxSuccessful) response.bodyToFlux(T::class.java)
                 else if (response.statusCode().is4xxClientError) handle4xxError<T>(response).flux()
                 else Flux.error(handle5xxError(response))
             }
     }
 
-    protected abstract fun <T> handle4xxError(response: ClientResponse): Mono<T>
+    protected abstract fun <Void> handle4xxError(response: ClientResponse): Mono<Void>
 
     protected fun handle5xxError(response: ClientResponse): ApplicationException {
         logger.info { "Handling ${response.statusCode()} error" }

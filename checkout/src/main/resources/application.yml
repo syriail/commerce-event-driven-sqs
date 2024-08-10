@@ -1,2 +1,22 @@
 spring:
-  application.name:checkout
+  application:
+    name: checkout
+
+inventory-service:
+  baseUrl: ${INVENTORY_SERVICE_BASE_URL}
+  reservePath: /reserve
+
+order-service:
+  baseUrl: ${ORDER_SERVICE_BASE_URL}
+
+---
+Spring:
+  config:
+    activate:
+      on-profile: ["test"]
+
+inventory-service:
+  baseUrl: "inventory-service"
+
+order-service:
+  baseUrl: "order-service"

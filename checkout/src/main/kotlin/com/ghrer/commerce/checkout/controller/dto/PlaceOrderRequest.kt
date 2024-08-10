@@ -1,15 +1,13 @@
-package com.ghrer.commerce.checkout.dto
+package com.ghrer.commerce.checkout.controller.dto
 
-import java.util.UUID
+import com.ghrer.commerce.checkout.dto.AddressDto
+import com.ghrer.commerce.checkout.dto.ItemDto
+import jakarta.validation.constraints.Size
 
 data class PlaceOrderRequest(
-    val customer: CustomerDto,
-    val items: List<PlaceOrderRequestItem>,
-    val invoiceAddress: AddressDto,
-    val shippingAddress: AddressDto,
-)
-
-data class PlaceOrderRequestItem(
-    val itemId: UUID,
-    val quantity: Int,
+    val customerId: String,
+    @field:Size(min = 1, message = "Items cannot be empty")
+    val items: List<ItemDto>,
+    val totalPrice: Double,
+    val customerAddress: AddressDto,
 )
