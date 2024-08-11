@@ -1,4 +1,4 @@
-package com.ghrer.commerce.checkout.config
+package com.ghrer.commerce.eventor.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

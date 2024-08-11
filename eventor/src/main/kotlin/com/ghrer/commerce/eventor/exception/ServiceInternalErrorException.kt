@@ -1,4 +1,4 @@
-package com.ghrer.commerce.checkout.exception
+package com.ghrer.commerce.eventor.exception
 
 class ServiceInternalErrorException(
     override val message: String? = null

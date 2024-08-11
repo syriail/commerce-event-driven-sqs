@@ -1,13 +1,10 @@
 spring:
   application:
-    name: checkout
+    name: eventor
 
 inventory-service:
   baseUrl: ${INVENTORY_SERVICE_BASE_URL}
   reservePath: /reserve
-
-order-service:
-  baseUrl: ${ORDER_SERVICE_BASE_URL}
 
 ---
 Spring:
@@ -17,6 +14,3 @@ Spring:
 
 inventory-service:
   baseUrl: "inventory-service"
-
-order-service:
-  baseUrl: "order-service"

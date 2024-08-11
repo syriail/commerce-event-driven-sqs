@@ -1,32 +1,110 @@
 version: "3"
 services:
-  payments:
-    container_name: payments
+  database:
+    container_name: commerce-db
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./scripts/init-db:/docker-entrypoint-initdb.d
+
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:3.6.0
+    ports:
+      - "127.0.0.1:4566:4566" # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559" # external services port range
+  aws-resources-setup:
+    container_name: aws-resources-setup
+    image: amazon/aws-cli:2.9.23
+    volumes:
+      - "./scripts/aws-resources-setup.sh:/scripts/aws-resources-setup.sh"
+    environment:
+      - AWS_ACCESS_KEY_ID=local_access_key
+      - AWS_SECRET_ACCESS_KEY=local_secret_key
+      - AWS_DEFAULT_REGION=eu-central-1
+    entrypoint: "sh /scripts/aws-resources-setup.sh"
+    depends_on:
+      - localstack
+
+  inventory:
+    container_name: inventory
+    environment:
+      - DB_HOST=commerce-db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password
     build:
-      context: ./payments
+      context: ./inventory
       dockerfile: Dockerfile
     expose:
       - "8080"
     ports:
       - "8001:8080"
+    depends_on:
+      - database
+      - aws-resources-setup
+
   orders:
     container_name: orders
+    environment:
+      - DB_HOST=commerce-db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password
+      - AWS_ACCESS_KEY_ID=local_access_key
+      - AWS_SECRET_ACCESS_KEY=local_secret_key
+      - AWS_REGION=eu-central-1
+      - AWS_COMMERCE_EVENTS_QUEUE_URL=http://sqs.eu-central-1.localhost.localstack.cloud:4566/000000000000/commerce_events.fifo
     build:
       context: ./orders
       dockerfile: Dockerfile
     expose:
       - "8080"
     ports:
-      - "8004:8080"
+      - "8002:8080"
+    depends_on:
+      - database
+      - aws-resources-setup
+
   checkout:
     container_name: checkout
+    environment:
+      - INVENTORY_SERVICE_BASE_URL=http://inventory:8080
+      - ORDER_SERVICE_BASE_URL=http://orders:8080
+      - AWS_ACCESS_KEY_ID=local_access_key
+      - AWS_SECRET_ACCESS_KEY=local_secret_key
+      - AWS_REGION=eu-central-1
+      - AWS_COMMERCE_EVENTS_QUEUE_URL=http://sqs.eu-central-1.localhost.localstack.cloud:4566/000000000000/commerce_events.fifo
     build:
       context: ./checkout
       dockerfile: Dockerfile
     expose:
       - "8080"
     ports:
-      - "8005:8080"
+      - "8000:8080"
     depends_on:
-      - payments
+      - inventory
       - orders
+
+  test-data-setup:
+    container_name: test-data-setup
+    build:
+      context: .
+      dockerfile: Dockerfile.test-data
+    # image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./scripts/test-data.sql:/test-data.sql
+      - ./scripts/wait-for-it.sh:/wait-for-it.sh
+    entrypoint:
+      [
+        "/bin/sh",
+        "-c",
+        "/wait-for-it.sh tcp://checkout:8080 -- psql postgresql://postgres:password@commerce-db:5432/inventory -f test-data.sql",
+      ]
+    depends_on:
+      - checkout

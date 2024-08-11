@@ -1,4 +1,4 @@
-package com.ghrer.commerce.checkout.exception
+package com.ghrer.commerce.eventor.exception
 
 open class ApplicationException(
     val retriable: Boolean,
