@@ -38,7 +38,7 @@ class InventoryHandlerTest {
             ReserveItemRequest(item2.id, item2.quantity),
             ReserveItemRequest(item3.id, item3.quantity),
         )
-        `when`(reactiveItemPersistenceService.findAllByIds(request.map { it.itemId }))
+        `when`(reactiveItemPersistenceService.findAllByIds(request.map { it.id }))
             .thenAnswer {
                 Mono.just(
                     listOf(item1, item2)
@@ -64,7 +64,7 @@ class InventoryHandlerTest {
             ReserveItemRequest(item2.id, item2.quantity + 1),
             ReserveItemRequest(item3.id, item3.quantity - item3.reserved),
         )
-        `when`(reactiveItemPersistenceService.findAllByIds(request.map { it.itemId }))
+        `when`(reactiveItemPersistenceService.findAllByIds(request.map { it.id }))
             .thenAnswer {
                 Mono.just(
                     listOf(item1, item2, item3)
@@ -90,7 +90,7 @@ class InventoryHandlerTest {
             ReserveItemRequest(item1.id, 1),
             ReserveItemRequest(item2.id, 2),
         )
-        `when`(reactiveItemPersistenceService.findAllByIds(request.map { it.itemId }))
+        `when`(reactiveItemPersistenceService.findAllByIds(request.map { it.id }))
             .thenAnswer {
                 Mono.just(
                     listOf(item1, item2)

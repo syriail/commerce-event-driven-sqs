@@ -15,9 +15,9 @@ class InventoryHandler(
     private val reactiveItemPersistenceService: ReactiveItemPersistenceService
 ) {
     fun reserve(itemsToReserve: List<ReserveItemRequest>): Flux<Item> {
-        val itemsToReserveMap = itemsToReserve.associateBy { it.itemId }
+        val itemsToReserveMap = itemsToReserve.associateBy { it.id }
 
-        return reactiveItemPersistenceService.findAllByIds(itemsToReserve.map { it.itemId })
+        return reactiveItemPersistenceService.findAllByIds(itemsToReserve.map { it.id })
             .map { itemsToUpdate ->
                 validateItemsToReserve(itemsToReserveMap, itemsToUpdate)
                 itemsToUpdate.map { item ->
