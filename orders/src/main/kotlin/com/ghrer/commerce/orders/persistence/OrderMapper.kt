@@ -22,7 +22,7 @@ class OrderMapper {
                     it.lastName,
                     it.street,
                     it.houseNumber,
-                    it.postalCode,
+                    it.postCode,
                     it.city
                 )
             },

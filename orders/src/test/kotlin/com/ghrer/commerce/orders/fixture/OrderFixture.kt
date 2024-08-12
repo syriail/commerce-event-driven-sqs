@@ -6,8 +6,6 @@ import com.ghrer.commerce.orders.dto.OrderRequestOrderItem
 import com.ghrer.commerce.orders.model.Address
 import com.ghrer.commerce.orders.model.Item
 import com.ghrer.commerce.orders.model.OrderAggregate
-import com.ghrer.commerce.orders.model.OrderItem
-import com.ghrer.commerce.orders.model.OrderItemId
 import com.ghrer.commerce.orders.model.OrderStatus
 import java.time.LocalDateTime
 import java.util.UUID
@@ -22,7 +20,7 @@ object OrderFixture {
             lastName = "Ghrer",
             street = "some where str.",
             houseNumber = "43B",
-            postalCode = "4320",
+            postCode = "4320",
             city = "nice city"
         ),
         items = listOf(
@@ -43,7 +41,7 @@ object OrderFixture {
                 lastName = request.customerAddress.lastName,
                 street = request.customerAddress.street,
                 houseNumber = request.customerAddress.houseNumber,
-                postalCode = request.customerAddress.postalCode,
+                postCode = request.customerAddress.postCode,
                 city = request.customerAddress.city
             ),
             status = OrderStatus.PLACED,

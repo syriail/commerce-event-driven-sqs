@@ -21,7 +21,7 @@ class OrdersController(
 ) {
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     fun createOrder(
         @Valid @RequestBody createOrderRequest: CreateOrderRequest
     ): Mono<OrderAggregate> = orderHandler.createOrder(createOrderRequest)

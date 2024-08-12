@@ -14,7 +14,7 @@ data class OrderRequestAddress(
     val lastName: String,
     val street: String,
     val houseNumber: String,
-    val postalCode: String,
+    val postCode: String,
     val city: String,
 )
 

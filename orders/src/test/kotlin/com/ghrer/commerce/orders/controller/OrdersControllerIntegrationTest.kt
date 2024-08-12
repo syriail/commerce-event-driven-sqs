@@ -21,7 +21,7 @@ class OrdersControllerIntegrationTest : BaseIntegrationTest() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(it)
                 .exchange()
-                .expectStatus().isCreated
+                .expectStatus().isOk
                 .expectBody(OrderAggregate::class.java)
                 .value { createdOrder ->
                     Assertions.assertThat(createdOrder.id).isNotNull()
