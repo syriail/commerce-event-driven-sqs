@@ -36,7 +36,7 @@ object OrderFixture {
             id = orderId,
             customerId = request.customerId,
             totalPrice = request.totalPrice,
-            address = Address(
+            customerAddress = Address(
                 firstName = request.customerAddress.firstName,
                 lastName = request.customerAddress.lastName,
                 street = request.customerAddress.street,

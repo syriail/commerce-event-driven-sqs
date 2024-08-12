@@ -47,6 +47,6 @@ class OrderMapper {
             Item(it.orderItemId.id, it.quantity, it.price)
         },
         totalPrice = order.totalPrice,
-        address = order.address
+        customerAddress = order.address
     )
 }
