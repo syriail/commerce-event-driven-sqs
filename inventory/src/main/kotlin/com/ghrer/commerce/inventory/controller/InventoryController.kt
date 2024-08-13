@@ -2,6 +2,7 @@ package com.ghrer.commerce.inventory.controller
 
 import com.ghrer.commerce.inventory.business.InventoryHandler
 import com.ghrer.commerce.inventory.controller.dto.ReserveItemRequest
+import com.ghrer.commerce.inventory.model.Item
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -18,8 +19,7 @@ class InventoryController(
     @ResponseStatus(HttpStatus.OK)
     fun reserve(
         @RequestBody items: List<ReserveItemRequest>
-    ): Mono<Void> {
+    ): Mono<List<Item>> {
         return inventoryHandler.reserve(items)
-            .then()
     }
 }

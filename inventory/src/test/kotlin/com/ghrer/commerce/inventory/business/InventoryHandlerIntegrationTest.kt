@@ -99,10 +99,8 @@ class InventoryHandlerIntegrationTest : BaseIntegrationTest() {
 
         StepVerifier.create(inventoryHandler.reserve(request))
             .consumeNextWith {
-                Assertions.assertThat(expectedItems[0].reserved).isEqualTo(it.reserved)
-            }
-            .consumeNextWith {
-                Assertions.assertThat(expectedItems[1].reserved).isEqualTo(it.reserved)
+                Assertions.assertThat(expectedItems[0].reserved).isEqualTo(it[0].reserved)
+                Assertions.assertThat(expectedItems[1].reserved).isEqualTo(it[1].reserved)
             }
             .verifyComplete()
     }

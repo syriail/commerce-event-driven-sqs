@@ -13,7 +13,7 @@ import java.util.UUID
 data class PlaceOrderResponse(
     val id: UUID,
     val customerId: String,
-    val address: AddressDto,
+    val customerAddress: AddressDto,
     val paymentId: String? = null,
     val shipmentId: String? = null,
     val totalPrice: Double,

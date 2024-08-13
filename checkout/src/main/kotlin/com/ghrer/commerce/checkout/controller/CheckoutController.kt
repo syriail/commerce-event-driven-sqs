@@ -20,7 +20,7 @@ class CheckoutController(
     private val checkoutHandler: CheckoutHandler
 ) {
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/order")
     fun placeOrder(
         @RequestBody @Valid placeOrderRequest: PlaceOrderRequest

@@ -4,6 +4,7 @@ import com.ghrer.commerce.orders.business.OrderHandler
 import com.ghrer.commerce.orders.dto.CreateOrderRequest
 import com.ghrer.commerce.orders.model.OrderAggregate
 import jakarta.validation.Valid
+import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,9 +21,14 @@ class OrdersController(
     private val orderHandler: OrderHandler
 ) {
 
+    val logger = KotlinLogging.logger {  }
+
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     fun createOrder(
         @Valid @RequestBody createOrderRequest: CreateOrderRequest
-    ): Mono<OrderAggregate> = orderHandler.createOrder(createOrderRequest)
+    ): Mono<OrderAggregate> {
+        logger.info { "Receive request" }
+        return orderHandler.createOrder(createOrderRequest)
+    }
 }

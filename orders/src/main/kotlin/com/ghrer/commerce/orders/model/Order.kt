@@ -3,6 +3,8 @@ package com.ghrer.commerce.orders.model
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.PrePersist
 import jakarta.persistence.Table
@@ -34,6 +36,7 @@ data class Order(
     val totalPrice: Double,
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     val status: OrderStatus = OrderStatus.PLACED,
 
     @Column(name = "create_date")

@@ -84,7 +84,7 @@ class CheckoutControllerIntegrationTest : BaseIntegrationTest() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(it)
                 .exchange()
-                .expectStatus().isCreated
+                .expectStatus().isOk
                 .expectBody(CreateOrderResponse::class.java)
                 .value { response ->
                     Assertions.assertThat(response).isNotNull

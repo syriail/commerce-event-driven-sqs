@@ -21,6 +21,7 @@ class OrderServiceAdaptorTest {
 
     private val orderServiceConfig = OrderServiceConfig().also {
         it.baseUrl = "http://localhost:$PORT"
+        it.createOrderPath = "/orders"
     }
 
     private val webClient = WebClient.create()
@@ -34,7 +35,7 @@ class OrderServiceAdaptorTest {
     fun `should throw BadRequest with fields when OrderService complains about empty items`() {
         val request = PlaceOrderRequestFixture.getValidPlaceOrderRequest()
         WireMock.stubFor(
-            WireMock.post("/")
+            WireMock.post("/orders")
                 .willReturn(
                     WireMock.aResponse()
                         .withStatus(HttpStatus.BAD_REQUEST.value())
@@ -66,7 +67,7 @@ class OrderServiceAdaptorTest {
     fun `should throw BadRequest with message when OrderService complains about null fields`() {
         val request = PlaceOrderRequestFixture.getValidPlaceOrderRequest()
         WireMock.stubFor(
-            WireMock.post("/")
+            WireMock.post("/orders")
                 .willReturn(
                     WireMock.aResponse()
                         .withStatus(HttpStatus.BAD_REQUEST.value())
@@ -95,7 +96,7 @@ class OrderServiceAdaptorTest {
         val request = PlaceOrderRequestFixture.getValidPlaceOrderRequest()
         val createdOrderId = UUID.randomUUID()
         WireMock.stubFor(
-            WireMock.post("/")
+            WireMock.post("/orders")
                 .willReturn(
                     WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
@@ -106,7 +107,7 @@ class OrderServiceAdaptorTest {
                                     "id": "$createdOrderId",
                                     "customerId": "${request.customerId}",
                                     "totalPrice": ${request.totalPrice},
-                                    "address": {
+                                    "customerAddress": {
                                         "firstName": "${request.customerAddress.firstName}",
                                         "lastName": "${request.customerAddress.lastName}",
                                         "street": "${request.customerAddress.street}",
@@ -116,17 +117,17 @@ class OrderServiceAdaptorTest {
                                     },
                                     "items": [
                                         {
-                                            "itemId": "${request.items[0].itemId}",
+                                            "id": "${request.items[0].id}",
                                             "quantity": ${request.items[0].quantity},
                                             "price": ${request.items[0].price}
                                         },
                                         {
-                                            "itemId": "${request.items[1].itemId}",
+                                            "id": "${request.items[1].id}",
                                             "quantity": ${request.items[1].quantity},
                                             "price": ${request.items[1].price}
                                         },
                                         {
-                                            "itemId": "${request.items[2].itemId}",
+                                            "id": "${request.items[2].id}",
                                             "quantity": ${request.items[2].quantity},
                                             "price": ${request.items[2].price}
                                         }

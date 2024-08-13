@@ -6,5 +6,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConfigurationProperties(prefix = "order-service")
 data class OrderServiceConfig(
-    var baseUrl: String = ""
+    var baseUrl: String = "",
+    var createOrderPath: String = ""
 )

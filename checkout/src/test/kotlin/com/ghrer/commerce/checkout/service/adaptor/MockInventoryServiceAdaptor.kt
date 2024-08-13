@@ -21,12 +21,12 @@ class MockInventoryServiceAdaptor : InventoryService {
     }
 
     private fun simulateItemNotFoundError(items: List<ItemDto>) = ItemNotFoundException(
-        notFoundItems = listOf(items[0].itemId)
+        notFoundItems = listOf(items[0].id)
     )
 
     private fun simulateNotEnoughQuantityError(items: List<ItemDto>) = NotEnoughQuantityAvailableException(
         unavailableItems = listOf(
-            UnavailableItem(items[0].itemId, items[0].quantity, 0)
+            UnavailableItem(items[0].id, items[0].quantity, 0)
         )
     )
 }

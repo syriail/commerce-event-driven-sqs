@@ -61,7 +61,7 @@ class InventoryServiceAdaptorTest {
                                 {
                                     "message": "Where the hell you got these items from?",
                                     "notFoundItems": [
-                                        "${items[0].itemId}"
+                                        "${items[0].id}"
                                     ]
                                 }
                             """.trimIndent()
@@ -75,7 +75,7 @@ class InventoryServiceAdaptorTest {
             .consumeErrorWith {
                 it as ItemNotFoundException
                 Assertions.assertThat(it).isNotNull()
-                Assertions.assertThat(it.notFoundItems[0]).isEqualTo(items[0].itemId)
+                Assertions.assertThat(it.notFoundItems[0]).isEqualTo(items[0].id)
                 Assertions.assertThat(it.message).isEqualTo("Where the hell you got these items from?")
             }.verify()
     }
@@ -95,7 +95,7 @@ class InventoryServiceAdaptorTest {
                                     "message": "Sorry! Not enough items in inventory",
                                     "unavailableItems": [
                                         {
-                                            "itemId": "${items[0].itemId}",
+                                            "itemId": "${items[0].id}",
                                             "requestedQuantity" : ${items[0].quantity},
                                             "availableQuantity": 1
                                         }
@@ -112,7 +112,7 @@ class InventoryServiceAdaptorTest {
             .consumeErrorWith {
                 it as NotEnoughQuantityAvailableException
                 Assertions.assertThat(it).isNotNull()
-                Assertions.assertThat(it.unavailableItems[0].itemId).isEqualTo(items[0].itemId)
+                Assertions.assertThat(it.unavailableItems[0].itemId).isEqualTo(items[0].id)
                 Assertions.assertThat(it.unavailableItems[0].availableQuantity).isEqualTo(1)
                 Assertions.assertThat(it.message).isEqualTo("Sorry! Not enough items in inventory")
             }.verify()

@@ -7,14 +7,14 @@ import com.ghrer.commerce.inventory.exception.NotEnoughQuantityAvailableExceptio
 import com.ghrer.commerce.inventory.model.Item
 import com.ghrer.commerce.inventory.persistence.ReactiveItemPersistenceService
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.util.UUID
 
 @Service
 class InventoryHandler(
     private val reactiveItemPersistenceService: ReactiveItemPersistenceService
 ) {
-    fun reserve(itemsToReserve: List<ReserveItemRequest>): Flux<Item> {
+    fun reserve(itemsToReserve: List<ReserveItemRequest>): Mono<List<Item>> {
         val itemsToReserveMap = itemsToReserve.associateBy { it.id }
 
         return reactiveItemPersistenceService.findAllByIds(itemsToReserve.map { it.id })
@@ -26,8 +26,8 @@ class InventoryHandler(
                     item.copy(reserved = item.reserved + itemToReserve.quantity)
                 }
             }
-            .flatMapMany { itemsToUpdate ->
-                reactiveItemPersistenceService.saveAll(itemsToUpdate)
+            .flatMap { itemsToUpdate ->
+                reactiveItemPersistenceService.saveAll(itemsToUpdate).collectList()
             }
     }
 

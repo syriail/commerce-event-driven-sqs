@@ -90,21 +90,19 @@ services:
 
   test-data-setup:
     container_name: test-data-setup
-    build:
-      context: .
-      dockerfile: Dockerfile.test-data
+    image: postgres:15
     # image: postgres:15
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     volumes:
-      - ./scripts/test-data.sql:/test-data.sql
+      - ./scripts/test-data:/test-data
       - ./scripts/wait-for-it.sh:/wait-for-it.sh
     entrypoint:
       [
         "/bin/sh",
         "-c",
-        "/wait-for-it.sh tcp://checkout:8080 -- psql postgresql://postgres:password@commerce-db:5432/inventory -f test-data.sql",
+        "/wait-for-it.sh tcp://checkout:8080 -- psql postgresql://postgres:password@commerce-db:5432/inventory -f /test-data/inventory-test-data.sql && psql postgresql://postgres:password@commerce-db:5432/orders -f /test-data/orders-test-data.sql",
       ]
     depends_on:
       - checkout

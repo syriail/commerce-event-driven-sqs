@@ -33,7 +33,7 @@ class CheckoutHandlerImplTest {
         val expectedResponse = PlaceOrderResponse(
             UUID.randomUUID(),
             customerId = request.customerId,
-            address = request.customerAddress,
+            customerAddress = request.customerAddress,
             totalPrice = request.totalPrice,
             status = OrderStatus.PLACED,
             createDate = LocalDateTime.now(),
@@ -61,7 +61,7 @@ class CheckoutHandlerImplTest {
         val expectedException = NotEnoughQuantityAvailableException(
             unavailableItems = listOf(
                 UnavailableItem(
-                    request.items[0].itemId,
+                    request.items[0].id,
                     request.items[0].quantity,
                     0
                 )
@@ -86,8 +86,8 @@ class CheckoutHandlerImplTest {
         val request = PlaceOrderRequestFixture.getValidPlaceOrderRequest()
         val expectedException = ItemNotFoundException(
             notFoundItems = listOf(
-                request.items[0].itemId,
-                request.items[2].itemId
+                request.items[0].id,
+                request.items[2].id
             )
         )
         `when`(inventoryService.reserveIfAvailable(request.items)).thenAnswer {
@@ -99,8 +99,8 @@ class CheckoutHandlerImplTest {
                 it as ItemNotFoundException
                 Assertions.assertThat(it).isNotNull()
                 Assertions.assertThat(it.notFoundItems).hasSize(expectedException.notFoundItems.size)
-                Assertions.assertThat(it.notFoundItems[0]).isEqualTo(request.items[0].itemId)
-                Assertions.assertThat(it.notFoundItems[1]).isEqualTo(request.items[2].itemId)
+                Assertions.assertThat(it.notFoundItems[0]).isEqualTo(request.items[0].id)
+                Assertions.assertThat(it.notFoundItems[1]).isEqualTo(request.items[2].id)
             }.verify()
     }
 

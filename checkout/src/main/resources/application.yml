@@ -8,6 +8,7 @@ inventory-service:
 
 order-service:
   baseUrl: ${ORDER_SERVICE_BASE_URL}
+  createOrderPath: /orders
 
 ---
 Spring:

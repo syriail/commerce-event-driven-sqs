@@ -107,7 +107,7 @@ class InventoryHandlerTest {
         }
 
         StepVerifier.create(inventoryHandler.reserve(request))
-            .expectNext(expectedItems[0], expectedItems[1])
+            .expectNext(expectedItems)
             .verifyComplete()
     }
 }

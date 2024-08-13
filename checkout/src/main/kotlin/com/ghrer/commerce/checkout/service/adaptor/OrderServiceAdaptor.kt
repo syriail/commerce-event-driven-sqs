@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.core.publisher.Mono
 import java.net.URI
 
@@ -26,7 +25,7 @@ class OrderServiceAdaptor(
     override val logger = KotlinLogging.logger { }
     override val serviceName = "Order Service"
     override fun createOrder(placeOrderRequest: PlaceOrderRequest): Mono<CreateOrderResponse> {
-        val uri = URI.create(orderServiceConfig.baseUrl)
+        val uri = URI.create("${orderServiceConfig.baseUrl}${orderServiceConfig.createOrderPath}")
         return postRequestToMono<CreateOrderResponse>(uri, placeOrderRequest)
     }
 

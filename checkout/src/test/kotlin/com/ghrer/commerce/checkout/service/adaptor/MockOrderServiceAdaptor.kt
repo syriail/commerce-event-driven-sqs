@@ -27,7 +27,7 @@ class MockOrderServiceAdaptor : OrdersService {
     private fun simulateOrderSuccessfullyCreated(placeOrderRequest: PlaceOrderRequest) = CreateOrderResponse(
         id = UUID.randomUUID(),
         customerId = placeOrderRequest.customerId,
-        address = placeOrderRequest.customerAddress,
+        customerAddress = placeOrderRequest.customerAddress,
         totalPrice = placeOrderRequest.totalPrice,
         items = placeOrderRequest.items,
         status = OrderStatus.PLACED,
