@@ -1,2 +1,44 @@
 spring:
-  application.name=payments
+  application.name: payments
+
+
+aws-resources:
+  commerceEventsQueueUrl: ${AWS_COMMERCE_EVENTS_QUEUE_URL}
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: ["test", "local", "docker"]
+  cloud:
+    aws:
+      region:
+        static: "eu-central-1"
+      credentials:
+        access-key: "local_access_key"
+        secret-key: "local_secret_key"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: ["test", "local"]
+
+  cloud:
+    aws:
+      endpoint: "http://localhost:4566"
+
+aws-resources:
+  commerceEventsQueueUrl: "http://sqs.eu-central-1.localhost.localstack.cloud:4566/000000000000/commerce_events.fifo"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: ["docker"]
+  cloud:
+    aws:
+      endpoint: "http://localstack:4566"
+aws-resources:
+  commerceEventsQueueUrl: "http://sqs.eu-central-1.localhost.localstack.cloud:4566/000000000000/commerce_events.fifo"

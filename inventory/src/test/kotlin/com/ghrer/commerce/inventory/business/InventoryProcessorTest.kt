@@ -19,13 +19,13 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 @ExtendWith(MockitoExtension::class)
-class InventoryHandlerTest {
+class InventoryProcessorTest {
 
     @Mock
     lateinit var reactiveItemPersistenceService: ReactiveItemPersistenceService
 
     @InjectMocks
-    lateinit var inventoryHandler: InventoryHandler
+    lateinit var inventoryProcessor: InventoryProcessor
 
     @Test
     fun `should return ItemNotFoundException when an item does not exist`() {
@@ -44,7 +44,7 @@ class InventoryHandlerTest {
                     listOf(item1, item2)
                 )
             }
-        StepVerifier.create(inventoryHandler.reserve(request))
+        StepVerifier.create(inventoryProcessor.reserve(request))
             .consumeErrorWith {
                 Assertions.assertThat(it).isInstanceOf(ItemNotFoundException::class.java)
                 (it as ItemNotFoundException).let { e ->
@@ -70,7 +70,7 @@ class InventoryHandlerTest {
                     listOf(item1, item2, item3)
                 )
             }
-        StepVerifier.create(inventoryHandler.reserve(request))
+        StepVerifier.create(inventoryProcessor.reserve(request))
             .consumeErrorWith {
                 Assertions.assertThat(it).isInstanceOf(NotEnoughQuantityAvailableException::class.java)
                 (it as NotEnoughQuantityAvailableException).let { e ->
@@ -106,7 +106,65 @@ class InventoryHandlerTest {
             Flux.fromIterable(expectedItems)
         }
 
-        StepVerifier.create(inventoryHandler.reserve(request))
+        StepVerifier.create(inventoryProcessor.reserve(request))
+            .expectNext(expectedItems)
+            .verifyComplete()
+    }
+
+    @Test
+    fun `should successfully commit reserved items`() {
+        val item1 = ItemFixture.getRandomItem()
+        val item2 = ItemFixture.getRandomItem()
+
+        val request = listOf(
+            ReserveItemRequest(item1.id, 1),
+            ReserveItemRequest(item2.id, 2),
+        )
+        `when`(reactiveItemPersistenceService.findAllByIds(request.map { it.id }))
+            .thenAnswer {
+                Mono.just(
+                    listOf(item1, item2)
+                )
+            }
+
+        val expectedItems = listOf(
+            item1.copy(reserved = item1.reserved - 1, quantity = item1.quantity - 1),
+            item2.copy(reserved = item2.reserved - 2, quantity = item1.quantity - 2)
+        )
+
+        `when`(reactiveItemPersistenceService.saveAll(anyList())).thenAnswer {
+            Flux.fromIterable(expectedItems)
+        }
+        StepVerifier.create(inventoryProcessor.commitReservedItems(request))
+            .expectNext(expectedItems)
+            .verifyComplete()
+    }
+
+    @Test
+    fun `should successfully dispatch items`() {
+        val item1 = ItemFixture.getRandomItem()
+        val item2 = ItemFixture.getRandomItem()
+
+        val request = listOf(
+            ReserveItemRequest(item1.id, 1),
+            ReserveItemRequest(item2.id, 2),
+        )
+        `when`(reactiveItemPersistenceService.findAllByIds(request.map { it.id }))
+            .thenAnswer {
+                Mono.just(
+                    listOf(item1, item2)
+                )
+            }
+
+        val expectedItems = listOf(
+            item1.copy(onShelf = item1.onShelf - 1),
+            item2.copy(onShelf = item2.onShelf - 2)
+        )
+
+        `when`(reactiveItemPersistenceService.saveAll(anyList())).thenAnswer {
+            Flux.fromIterable(expectedItems)
+        }
+        StepVerifier.create(inventoryProcessor.dispatchItems(request))
             .expectNext(expectedItems)
             .verifyComplete()
     }

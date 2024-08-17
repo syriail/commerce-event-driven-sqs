@@ -1,13 +1,10 @@
 package com.ghrer.commerce.payments
 
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
-class PaymentsApplicationTests {
+class PaymentsApplicationTests : BaseIntegrationTest() {
 
-	@Test
-	fun contextLoads() {
-	}
-
+    @Test
+    fun contextLoads() {
+    }
 }
