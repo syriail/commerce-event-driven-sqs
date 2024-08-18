@@ -2,7 +2,6 @@ package com.ghrer.commerce.orders.controller
 
 import com.ghrer.commerce.orders.business.OrderHandler
 import com.ghrer.commerce.orders.dto.CreateOrderRequest
-import com.ghrer.commerce.orders.model.OrderAggregate
 import com.ghrer.commerce.orders.model.OrderStatus
 import jakarta.validation.Valid
 import mu.KotlinLogging
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Mono
 import java.util.UUID
 
 @RestController
@@ -39,5 +37,5 @@ class OrdersController(
     fun updateOrderStatus(
         @PathVariable orderId: UUID,
         @RequestParam status: OrderStatus,
-    )  = orderHandler.updateOrderStatus(orderId, status)
+    ) = orderHandler.updateOrderStatus(orderId, status)
 }

@@ -5,7 +5,6 @@ import com.ghrer.commerce.eventor.agent.service.config.OrderServiceConfig
 import com.ghrer.commerce.eventor.agent.service.port.UpdateOrderStatusRequest
 import com.ghrer.commerce.eventor.model.OrderStatus
 import com.github.tomakehurst.wiremock.client.WireMock
-import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
@@ -41,13 +40,13 @@ class OrderServiceAdaptorTest {
                 )
         )
 
-        StepVerifier.create(orderServiceAdaptor.updateStatus(
-            UpdateOrderStatusRequest(
-                orderId,
-                OrderStatus.PAID
+        StepVerifier.create(
+            orderServiceAdaptor.updateStatus(
+                UpdateOrderStatusRequest(
+                    orderId,
+                    OrderStatus.PAID
+                )
             )
-        )).verifyComplete()
+        ).verifyComplete()
     }
-
-
 }

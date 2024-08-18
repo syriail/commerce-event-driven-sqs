@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.util.UriBuilder
 import reactor.core.publisher.Mono
-import java.net.URI
 
 @Service
 class OrderServiceAdaptor @Autowired constructor(
@@ -25,11 +23,11 @@ class OrderServiceAdaptor @Autowired constructor(
     override val serviceName = "Order Service"
 
     override fun updateStatus(request: UpdateOrderStatusRequest): Mono<Void> {
-        return orderServiceWebClient.patch().uri { uriBuilder -> uriBuilder
-            .path("${orderServiceConfig.statusPath}/${request.orderId}")
-            .queryParam(STATUS_QUERY_PARAM, request.status)
-            .build()
-
+        return orderServiceWebClient.patch().uri { uriBuilder ->
+            uriBuilder
+                .path("${orderServiceConfig.statusPath}/${request.orderId}")
+                .queryParam(STATUS_QUERY_PARAM, request.status)
+                .build()
         }
             .contentLength(0)
             .exchangeToMono { response ->

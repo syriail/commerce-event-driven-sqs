@@ -1,7 +1,6 @@
 package com.ghrer.commerce.orders.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.awspring.cloud.sqs.listener.QueueNotFoundStrategy
 import io.awspring.cloud.sqs.operations.SqsTemplate
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

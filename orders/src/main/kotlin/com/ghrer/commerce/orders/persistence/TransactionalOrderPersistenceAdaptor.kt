@@ -12,8 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.support.TransactionTemplate
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
-import java.util.*
-import kotlin.jvm.optionals.getOrElse
+import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 
 @Service
@@ -52,7 +51,6 @@ class TransactionalOrderPersistenceAdaptor(
             orderRepository.save(
                 order.copy(status = status)
             )
-
         }.subscribeOn(Schedulers.boundedElastic())
     }
 }
