@@ -1,7 +1,18 @@
-package com.ghrer.commerce.eventor.service.port
+package com.ghrer.commerce.eventor.agent.service.port
 
-import com.ghrer.commerce.eventor.model.Order
+import com.ghrer.commerce.eventor.model.Address
+import com.ghrer.commerce.eventor.model.Item
+import reactor.core.publisher.Mono
+import java.util.UUID
 
-class PaymentService {
-    fun processPayment(order: Order) {}
+interface PaymentService {
+    fun processPayment(request: ProcessPaymentRequest): Mono<Void>
 }
+
+data class ProcessPaymentRequest(
+    val orderId: UUID,
+    val customerId: String,
+    val customerAddress: Address,
+    val totalPrice: Double,
+    val items: List<Item>
+)

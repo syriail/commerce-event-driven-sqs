@@ -2,6 +2,7 @@ package com.ghrer.commerce.inventory.controller
 
 import com.ghrer.commerce.inventory.exception.ItemNotFoundException
 import com.ghrer.commerce.inventory.exception.NotEnoughQuantityAvailableException
+import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
 import org.springframework.validation.FieldError
@@ -11,6 +12,8 @@ import org.springframework.web.bind.support.WebExchangeBindException
 
 @RestControllerAdvice
 class ErrorResponseHandler {
+
+    val logger = KotlinLogging.logger { }
     @ExceptionHandler(WebExchangeBindException::class)
     fun handleWebExchangeBindException(e: WebExchangeBindException): ProblemDetail {
         val errors: MutableMap<String, String> = HashMap()
@@ -37,6 +40,14 @@ class ErrorResponseHandler {
         return ProblemDetail.forStatus(HttpStatus.NOT_FOUND).apply {
             setProperty("message", e.message ?: "At least one item is not found. Check notFoundItems")
             setProperty("notFoundItems", e.notFoundItems)
+        }
+    }
+
+    @ExceptionHandler(RuntimeException::class)
+    fun handleRunTimeException(e: RuntimeException): ProblemDetail {
+        logger.error(e) { e.message }
+        return ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR).apply {
+            setProperty("message", e.message ?: "Internal Server Exception")
         }
     }
 }

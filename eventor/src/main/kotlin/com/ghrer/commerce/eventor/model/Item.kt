@@ -1,4 +1,9 @@
 package com.ghrer.commerce.eventor.model
 
-class Item {
-}
+import java.util.UUID
+
+data class Item(
+    val id: UUID,
+    val quantity: Int,
+    val price: Double
+)

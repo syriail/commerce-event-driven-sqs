@@ -13,6 +13,7 @@ object ItemFixture {
         description = RandomUtil.randomDescription(),
         quantity = 10,
         reserved = Random.nextInt(0, 5),
+        onShelf = 10,
         price = Random.nextDouble(1.0, 100.0)
     )
 }

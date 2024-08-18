@@ -13,4 +13,5 @@ data class Item(
     val quantity: Int,
     val reserved: Int = 0,
     val price: Double,
+    val onShelf: Int,
 )

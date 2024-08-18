@@ -1,8 +1,8 @@
-package com.ghrer.commerce.eventor.service.adaptor
+package com.ghrer.commerce.eventor.agent.service.adaptor
 
+import com.ghrer.commerce.eventor.agent.service.config.InventoryServiceConfig
+import com.ghrer.commerce.eventor.agent.service.port.InventoryService
 import com.ghrer.commerce.eventor.model.Item
-import com.ghrer.commerce.eventor.service.config.InventoryServiceConfig
-import com.ghrer.commerce.eventor.service.port.InventoryService
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.ClientResponse

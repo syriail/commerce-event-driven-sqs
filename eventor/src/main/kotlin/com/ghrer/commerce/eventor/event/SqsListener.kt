@@ -1,13 +1,15 @@
 package com.ghrer.commerce.eventor.event
 
-import com.ghrer.commerce.eventor.event.model.OrderEvent
 import io.awspring.cloud.sqs.annotation.SqsListener
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.messaging.MessageHeaders
+import org.springframework.stereotype.Component
 
-class MessageConsumer {
-    @SqsListener("\${spring.cloud.aws.commerceEventsQueueUrl}")
-    fun listen(event: OrderEvent) {
+@Component
+class SqsListener(
+    private val messageTransformer: MessageTransformer,
+) {
 
+    @SqsListener("\${aws-resources.commerceEventsQueueUrl}")
+    fun listen(message: String) {
+        messageTransformer.transform(message)
     }
 }

@@ -1,4 +1,10 @@
 package com.ghrer.commerce.eventor.model
 
-class Address {
-}
+data class Address(
+    val firstName: String,
+    val lastName: String,
+    val street: String,
+    val houseNumber: String,
+    val postCode: String,
+    val city: String,
+)

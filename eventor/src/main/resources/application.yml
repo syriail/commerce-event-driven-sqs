@@ -4,13 +4,57 @@ spring:
 
 inventory-service:
   baseUrl: ${INVENTORY_SERVICE_BASE_URL}
-  reservePath: /reserve
+  commitReservedPath: /commit-reserved
 
+payments-service:
+  baseUrl: ${PAYMENTS_SERVICE_BASE_URL}
+  processPaymentPath: /process-payment
+
+orders-service:
+  baseUrl: ${ORDER_SERVICE_BASE_URL}
+  statusPath: /orders/status
+
+aws-resources:
+  commerceEventsQueueUrl: ${AWS_COMMERCE_EVENTS_QUEUE_URL}
 ---
 Spring:
   config:
     activate:
-      on-profile: ["test"]
+      on-profile: ["test", "local", "docker"]
+
+  cloud:
+    aws:
+      region:
+        static: "eu-central-1"
+      credentials:
+        access-key: "local_access_key"
+        secret-key: "local_secret_key"
+---
+spring:
+  config:
+    activate:
+      on-profile: ["test", "local"]
+  cloud:
+    aws:
+      endpoint: "http://localhost:4566"
+aws-resources:
+  commerceEventsQueueUrl: "http://sqs.eu-central-1.localhost.localstack.cloud:4566/000000000000/commerce_events.fifo"
 
 inventory-service:
   baseUrl: "inventory-service"
+
+payments-service:
+  baseUrl: "payments-service"
+
+orders-service:
+  baseUrl: orders-service
+---
+spring:
+  config:
+    activate:
+      on-profile: ["docker"]
+  cloud:
+    aws:
+      endpoint: "http://localstack:4566"
+aws-resources:
+  commerceEventsQueueUrl: "http://sqs.eu-central-1.localhost.localstack.cloud:4566/000000000000/commerce_events.fifo"

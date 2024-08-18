@@ -13,7 +13,7 @@ import reactor.test.StepVerifier
 
 class OrderHandlerIntegrationTest : BaseIntegrationTest() {
 
-    @Value("\${spring.cloud.aws.commerceEventsQueueUrl}")
+    @Value("\${aws-resources.commerceEventsQueueUrl}")
     private lateinit var queueUrl: String
 
     @Autowired
@@ -35,6 +35,7 @@ class OrderHandlerIntegrationTest : BaseIntegrationTest() {
             val message = messages.find { it.payload.order.id == createdOrder?.id }
             Assertions.assertThat(message).isNotNull
             message?.let {
+                println(it.headers)
                 Assertions.assertThat(
                     it.headers[SqsEventPublisherAdaptor.SQS_GROUP_ID_HEADER]
                 ).isEqualTo(createdOrder?.id.toString())

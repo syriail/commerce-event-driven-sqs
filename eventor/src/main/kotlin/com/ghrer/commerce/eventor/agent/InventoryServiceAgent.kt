@@ -1,7 +1,7 @@
 package com.ghrer.commerce.eventor.agent
 
+import com.ghrer.commerce.eventor.agent.service.port.InventoryService
 import com.ghrer.commerce.eventor.event.model.OrderCreatedEvent
-import com.ghrer.commerce.eventor.service.port.InventoryService
 import mu.KotlinLogging
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Service

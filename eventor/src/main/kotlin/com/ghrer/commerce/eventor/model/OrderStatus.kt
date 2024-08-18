@@ -1,4 +1,4 @@
-package com.ghrer.commerce.orders.model
+package com.ghrer.commerce.eventor.model
 
 enum class OrderStatus {
     PLACED,

@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17-jdk AS build
 
-ENV GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx512 -XX:+HeapDumpOnOutOfMemoryError" -Dorg.gradle.daemon=false -Dorg.gradle.workders.max=1 -Dorg.gradle.parallel=false'
+ENV GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx265 -XX:+HeapDumpOnOutOfMemoryError" -Dorg.gradle.daemon=false -Dorg.gradle.workders.max=1 -Dorg.gradle.parallel=false'
 
 WORKDIR /app
 COPY . .

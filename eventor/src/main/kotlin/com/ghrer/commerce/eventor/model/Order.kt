@@ -3,7 +3,7 @@ package com.ghrer.commerce.eventor.model
 import java.time.LocalDateTime
 import java.util.UUID
 
-data class OrderAggregate(
+data class Order(
     val id: UUID,
     val customerId: String,
     val customerAddress: Address,

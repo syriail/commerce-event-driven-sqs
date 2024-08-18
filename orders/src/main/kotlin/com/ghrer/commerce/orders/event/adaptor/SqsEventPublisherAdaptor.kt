@@ -9,17 +9,13 @@ import org.springframework.stereotype.Component
 @Component
 class SqsEventPublisherAdaptor(
     private val sqsTemplate: SqsTemplate,
-    @Value("\${spring.cloud.aws.commerceEventsQueueUrl}")
+    @Value("\${aws-resources.commerceEventsQueueUrl}")
     private val queueUrl: String,
 ) : EventPublisher {
     override fun publish(event: OrderEvent) {
-        sqsTemplate.sendAsync {
+        sqsTemplate.send {
             it.queue(queueUrl)
-            it.headers(
-                mapOf(
-                    SQS_GROUP_ID_HEADER to event.eventGroupId
-                )
-            )
+            it.header(SQS_GROUP_ID_HEADER, event.eventGroupId)
             it.payload(event)
         }
     }

@@ -1,4 +1,4 @@
-package com.ghrer.commerce.eventor.service.adaptor
+package com.ghrer.commerce.eventor.agent.service.adaptor
 
 import com.ghrer.commerce.eventor.exception.ApplicationException
 import com.ghrer.commerce.eventor.exception.ServiceInternalErrorException

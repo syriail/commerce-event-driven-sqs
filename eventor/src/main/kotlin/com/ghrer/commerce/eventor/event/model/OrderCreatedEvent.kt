@@ -1,11 +1,10 @@
-package com.ghrer.commerce.orders.event.model
+package com.ghrer.commerce.eventor.event.model
 
-import com.ghrer.commerce.orders.model.OrderAggregate
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.ghrer.commerce.eventor.model.Order
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class OrderCreatedEvent(
     override val eventType: OrderEventType = OrderEventType.ORDER_CREATED,
-    val order: OrderAggregate
-) : OrderEvent {
-    override val eventGroupId: String
-        get() = order.id.toString()
-}
+    val order: Order
+) : OrderEvent
