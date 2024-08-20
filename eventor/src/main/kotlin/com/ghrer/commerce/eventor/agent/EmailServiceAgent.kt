@@ -18,7 +18,7 @@ class EmailServiceAgent {
 
     @EventListener
     fun on(paymentFailedEvent: OrderPaymentFailedEvent) {
-        logger.error {
+        logger.info {
             "Sending email to customer informing them that the payment for " +
                 "order ${paymentFailedEvent.orderId} has been fail. Reason: ${paymentFailedEvent.reason}"
         }

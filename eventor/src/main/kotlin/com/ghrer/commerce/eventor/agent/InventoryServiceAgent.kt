@@ -13,6 +13,7 @@ class InventoryServiceAgent(
     val logger = KotlinLogging.logger { }
     @EventListener
     fun on(orderCreatedEvent: OrderCreatedEvent) {
+        logger.info { "Commit reserved items for order ${orderCreatedEvent.order.id}" }
         runCatching {
             inventoryService.commitItemsReservation(orderCreatedEvent.order.items).block()
         }.onFailure {

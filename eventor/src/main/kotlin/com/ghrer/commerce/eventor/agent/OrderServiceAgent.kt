@@ -18,6 +18,7 @@ class OrderServiceAgent(
 
     @EventListener
     fun on(paymentSuccessfulEvent: OrderPaymentSuccessfulEvent) {
+        logger.info { "Update order ${paymentSuccessfulEvent.orderId} with status ${OrderStatus.PAID}" }
         runCatching {
             orderService.updateStatus(
                 UpdateOrderStatusRequest(
@@ -32,6 +33,7 @@ class OrderServiceAgent(
 
     @EventListener
     fun on(paymentFailedEvent: OrderPaymentFailedEvent) {
+        logger.info { "Update order ${paymentFailedEvent.orderId} with status ${OrderStatus.PAYMENT_FAILED}" }
         runCatching {
             orderService.updateStatus(
                 UpdateOrderStatusRequest(

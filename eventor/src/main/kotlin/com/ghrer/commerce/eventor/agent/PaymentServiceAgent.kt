@@ -16,6 +16,7 @@ class PaymentServiceAgent(
 
     @EventListener
     fun on(orderCreatedEvent: OrderCreatedEvent) {
+        logger.info { "Process payment for order ${orderCreatedEvent.order.id}" }
         runCatching {
             paymentService.processPayment(
                 with(orderCreatedEvent.order) {
