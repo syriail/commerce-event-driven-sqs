@@ -43,13 +43,13 @@ class TransactionalOrderPersistenceAdaptor(
         }.subscribeOn(Schedulers.boundedElastic())
     }
 
-    override fun updateOrderStatus(id: UUID, status: OrderStatus): Mono<Order> {
+    override fun updateOrderPaymentStatus(id: UUID, status: OrderStatus, paymentId: String?): Mono<Order> {
         return Mono.fromCallable {
             val order = orderRepository.findById(id).getOrNull()
                 ?: throw ApplicationException(false)
 
             orderRepository.save(
-                order.copy(status = status)
+                order.copy(status = status, paymentId = paymentId)
             )
         }.subscribeOn(Schedulers.boundedElastic())
     }

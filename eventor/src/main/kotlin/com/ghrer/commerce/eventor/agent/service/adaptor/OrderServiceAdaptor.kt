@@ -2,14 +2,19 @@ package com.ghrer.commerce.eventor.agent.service.adaptor
 
 import com.ghrer.commerce.eventor.agent.service.config.OrderServiceConfig
 import com.ghrer.commerce.eventor.agent.service.port.OrderService
-import com.ghrer.commerce.eventor.agent.service.port.UpdateOrderStatusRequest
+import com.ghrer.commerce.eventor.agent.service.port.UpdateOrderPaymentStatusRequest
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.util.UriBuilder
 import reactor.core.publisher.Mono
+import java.net.URI
+import java.util.*
 
 @Service
 class OrderServiceAdaptor @Autowired constructor(
@@ -22,11 +27,12 @@ class OrderServiceAdaptor @Autowired constructor(
     override val logger = KotlinLogging.logger { }
     override val serviceName = "Order Service"
 
-    override fun updateStatus(request: UpdateOrderStatusRequest): Mono<Void> {
+    override fun updatePaymentStatus(request: UpdateOrderPaymentStatusRequest): Mono<Void> {
         return orderServiceWebClient.patch().uri { uriBuilder ->
             uriBuilder
-                .path("${orderServiceConfig.statusPath}/${request.orderId}")
+                .path("${orderServiceConfig.paymentStatusPath}/${request.orderId}")
                 .queryParam(STATUS_QUERY_PARAM, request.status)
+                .queryParamIfPresent(PAYMENT_ID_QUERY_PARAM, Optional.ofNullable(request.paymentId))
                 .build()
         }
             .contentLength(0)
@@ -43,5 +49,6 @@ class OrderServiceAdaptor @Autowired constructor(
 
     companion object {
         const val STATUS_QUERY_PARAM = "status"
+        const val PAYMENT_ID_QUERY_PARAM = "paymentId"
     }
 }

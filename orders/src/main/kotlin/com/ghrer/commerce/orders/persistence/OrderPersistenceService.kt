@@ -11,5 +11,5 @@ interface OrderPersistenceService {
 
     fun createOrder(createOrderRequest: CreateOrderRequest): Mono<OrderAggregate>
 
-    fun updateOrderStatus(id: UUID, status: OrderStatus): Mono<Order>
+    fun updateOrderPaymentStatus(id: UUID, status: OrderStatus, paymentId: String?): Mono<Order>
 }

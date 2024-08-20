@@ -24,7 +24,7 @@ class OrderHandler(
             }
     }
 
-    fun updateOrderStatus(id: UUID, status: OrderStatus): Mono<Void> {
-        return orderPersistenceService.updateOrderStatus(id, status).flatMap { Mono.empty() }
+    fun updateOrderPaymentStatus(id: UUID, status: OrderStatus, paymentId: String?): Mono<Void> {
+        return orderPersistenceService.updateOrderPaymentStatus(id, status, paymentId).flatMap { Mono.empty() }
     }
 }

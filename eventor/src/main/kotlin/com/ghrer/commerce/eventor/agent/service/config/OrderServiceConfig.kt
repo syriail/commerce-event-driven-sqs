@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 data class OrderServiceConfig(
     var baseUrl: String = "",
-    var statusPath: String = ""
+    var paymentStatusPath: String = ""
 )

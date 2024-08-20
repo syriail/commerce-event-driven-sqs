@@ -12,7 +12,7 @@ payments-service:
 
 orders-service:
   baseUrl: ${ORDER_SERVICE_BASE_URL}
-  statusPath: /orders/status
+  paymentStatusPath: /orders/status/payment
 
 aws-resources:
   commerceEventsQueueUrl: ${AWS_COMMERCE_EVENTS_QUEUE_URL}

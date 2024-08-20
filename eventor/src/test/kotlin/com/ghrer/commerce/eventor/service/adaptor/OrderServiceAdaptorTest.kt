@@ -2,7 +2,7 @@ package com.ghrer.commerce.eventor.service.adaptor
 
 import com.ghrer.commerce.eventor.agent.service.adaptor.OrderServiceAdaptor
 import com.ghrer.commerce.eventor.agent.service.config.OrderServiceConfig
-import com.ghrer.commerce.eventor.agent.service.port.UpdateOrderStatusRequest
+import com.ghrer.commerce.eventor.agent.service.port.UpdateOrderPaymentStatusRequest
 import com.ghrer.commerce.eventor.model.OrderStatus
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
@@ -19,7 +19,7 @@ class OrderServiceAdaptorTest {
 
     private val orderServiceConfig = OrderServiceConfig().also {
         it.baseUrl = "http://localhost:$PORT"
-        it.statusPath = "/orders/status"
+        it.paymentStatusPath = "/orders/payment/status"
     }
 
     private val webClient = WebClient.create("http://localhost:$PORT")
@@ -30,10 +30,12 @@ class OrderServiceAdaptorTest {
     )
 
     @Test
-    fun `should send update status request correctly`() {
+    fun `should send update payment status request with paymentId correctly`() {
         val orderId = UUID.randomUUID()
+        val paymentId = UUID.randomUUID()
+        val queryString = "${OrderServiceAdaptor.STATUS_QUERY_PARAM}=${OrderStatus.PAID}&${OrderServiceAdaptor.PAYMENT_ID_QUERY_PARAM}=$paymentId"
         WireMock.stubFor(
-            WireMock.patch("/orders/status/$orderId?${OrderServiceAdaptor.STATUS_QUERY_PARAM}=${OrderStatus.PAID}")
+            WireMock.patch("/orders/payment/status/$orderId?$queryString")
                 .willReturn(
                     WireMock.aResponse()
                         .withStatus(HttpStatus.ACCEPTED.value())
@@ -41,10 +43,33 @@ class OrderServiceAdaptorTest {
         )
 
         StepVerifier.create(
-            orderServiceAdaptor.updateStatus(
-                UpdateOrderStatusRequest(
+            orderServiceAdaptor.updatePaymentStatus(
+                UpdateOrderPaymentStatusRequest(
                     orderId,
-                    OrderStatus.PAID
+                    OrderStatus.PAID,
+                    paymentId = paymentId.toString()
+                )
+            )
+        ).verifyComplete()
+    }
+
+    @Test
+    fun `should send update payment status request without paymentId correctly`() {
+        val orderId = UUID.randomUUID()
+        val queryString = "${OrderServiceAdaptor.STATUS_QUERY_PARAM}=${OrderStatus.PAYMENT_FAILED}"
+        WireMock.stubFor(
+            WireMock.patch("/orders/payment/status/$orderId?$queryString")
+                .willReturn(
+                    WireMock.aResponse()
+                        .withStatus(HttpStatus.ACCEPTED.value())
+                )
+        )
+
+        StepVerifier.create(
+            orderServiceAdaptor.updatePaymentStatus(
+                UpdateOrderPaymentStatusRequest(
+                    orderId,
+                    OrderStatus.PAYMENT_FAILED,
                 )
             )
         ).verifyComplete()

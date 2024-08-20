@@ -6,10 +6,11 @@ import java.util.UUID
 
 interface OrderService {
 
-    fun updateStatus(request: UpdateOrderStatusRequest): Mono<Void>
+    fun updatePaymentStatus(request: UpdateOrderPaymentStatusRequest): Mono<Void>
 }
 
-data class UpdateOrderStatusRequest(
+data class UpdateOrderPaymentStatusRequest(
     val orderId: UUID,
-    val status: OrderStatus
+    val status: OrderStatus,
+    val paymentId: String? = null
 )
