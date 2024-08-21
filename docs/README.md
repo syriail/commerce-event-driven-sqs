@@ -8,7 +8,7 @@ It is the practical part of the artical [Event Driven Architecture using AWS SQ
 
 ![SQS eventor Arch.](./assests/sqs-eventor.png "SQS eventor Arch.")
 
-`Eventor` is the component whose resposibility is to alter the nature of SQS message to the nature of events, which could be consumed by differnt other service through their agents.
+`Eventor` is the component whose resposibility is to alter the nature of SQS message to the nature of event, which could be consumed by differnt other services through their agents.
 
 Full explanation can be found in the article.
 
