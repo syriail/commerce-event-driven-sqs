@@ -2,7 +2,7 @@
 
 This project is to showcase how to implement event driven architecture using one AWS SQS.
 
-It is the practical part of the artical [Event Driven Architecture using AWS SQS]()
+It is the practical part of the artical [Event Driven Architecture using AWS SQS](https://medium.com/@hussin.ghrer/event-driven-architecture-using-aws-sqs-b93f80d4f648)
 
 ## Architecture
 
